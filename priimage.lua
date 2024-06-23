@@ -479,7 +479,11 @@ wget.callbacks.write_to_warc = function(url, http_stat)
     if string.match(html, "[iI]ncapsula%s+incident")
       or string.match(html, '<[mM][eE][tT][aA] [nN][aA][mM][eE]="[rR][oO][bB][oO][tT][sS]" [cC][oO][nN][tT][eE][nN][tT]="[nN][oO][iI][nN][dD][eE][xX],%s*[nN][oO][fF][oO][lL][lL][oO][wW]">')
       or string.match(html, "<body>%s*</body>")
-      or not string.match(html, "prcm%.jp/") then
+      or (
+        not string.match(html, "prcm%.jp/")
+        and not string.match(html, "prepics%.com/")
+        and not string.match(html, "prepics%-cdn%.com/")
+      ) then
       io.stdout:write("Possible 200 page with captcha.\n")
       io.stdout:flush()
       retry_url = true
