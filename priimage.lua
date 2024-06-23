@@ -597,13 +597,13 @@ submit_backfeed = function()
       end
       count = count + 1
       if count == 500 then
-        --submit_backfeed(items, key)
+        submit_backfeed(items, key)
         items = nil
         count = 0
       end
     end
     if items ~= nil then
-      --submit_backfeed(items, key)
+      submit_backfeed(items, key)
     end
   end
   discovered_items = {}
