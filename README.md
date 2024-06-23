@@ -35,7 +35,7 @@ It is advised to use [Watchtower](https://github.com/containrrr/watchtower) to a
 
 after which the project container can be run:
 
-    docker run -d --name archiveteam --label=com.centurylinklabs.watchtower.enable=true --log-driver json-file --log-opt max-size=50m --restart=unless-stopped atdr.meo.ws/archiveteam/priimage --concurrent 1 YOURNICKHERE
+    docker run -d --name archiveteam --label=com.centurylinklabs.watchtower.enable=true --log-driver json-file --log-opt max-size=50m --restart=unless-stopped atdr.meo.ws/archiveteam/priimage-grab --concurrent 1 YOURNICKHERE
 
 Be sure to replace `YOURNICKHERE` with the nickname that you want to be shown as on the tracker. There is no registration, just pick a nickname you like.
 
