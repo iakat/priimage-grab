@@ -476,7 +476,10 @@ wget.callbacks.write_to_warc = function(url, http_stat)
     and string.match(url["url"], "^https?://[^/]*prcm%.jp/")
     and not string.match(url["url"], "^https?://pics%.prcm%.jp/") then
     local html = read_file(http_stat["local_file"])
-    if string.match(html, "[iI]ncapsula%s+incident") then
+    if string.match(html, "[iI]ncapsula%s+incident")
+      or string.match(html, '<[mM][eE][tT][aA] [nN][aA][mM][eE]="[rR][oO][bB][oO][tT][sS]" [cC][oO][nN][tT][eE][nN][tT]="[nN][oO][iI][nN][dD][eE][xX],%s*[nN][oO][fF][oO][lL][lL][oO][wW]">')
+      or string.match(html, "<body>%s*</body>")
+      or not string.match(html, "prcm%.jp/") then
       io.stdout:write("Possible 200 page with captcha.\n")
       io.stdout:flush()
       retry_url = true
@@ -545,10 +548,7 @@ wget.callbacks.httploop_result = function(url, err, http_stat)
     io.stdout:write("Server returned bad response. ")
     io.stdout:flush()
     tries = tries + 1
-    local maxtries = 5
-    if status_code == 200 or status_code == 404 then
-      maxtries = 2
-    end
+    local maxtries = 8
     if tries > maxtries then
       io.stdout:write(" Skipping.\n")
       io.stdout:flush()
