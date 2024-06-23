@@ -461,11 +461,31 @@ wget.callbacks.write_to_warc = function(url, http_stat)
   is_initial_url = false
   is_new_design = false
   if http_stat["len"] == 0 then
+    io.stdout:write("Zero length response.\n")
+    io.stdout:flush()
     retry_url = true
     return false
   end
-  if http_stat["statcode"] ~= 200
+  if http_stat["statcode"] == 302
+    and url["url"] ~= urlparse.absolute(url["url"], http_stat["newloc"]) then
+    io.stdout:write("Unexpected 302.\n")
+    io.stdout:flush()
+    retry_url = true
+    return false
+  elseif http_stat["statcode"] == 200
+    and string.match(url["url"], "^https?://[^/]*prcm%.jp/")
+    and not string.match(url["url"], "^https?://pics%.prcm%.jp/") then
+    local html = read_file(http_stat["local_file"])
+    if string.match(html, "[iI]ncapsula%s+incident") then
+      io.stdout:write("Possible 200 page with captcha.\n")
+      io.stdout:flush()
+      retry_url = true
+      return false
+    end
+  elseif http_stat["statcode"] ~= 200
     and http_stat["statcode"] ~= 302 then
+    io.stdout:write("Bad status code.\n")
+    io.stdout:flush()
     retry_url = true
     return false
   end
