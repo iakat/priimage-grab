@@ -483,6 +483,7 @@ wget.callbacks.write_to_warc = function(url, http_stat)
         not string.match(html, "prcm%.jp/")
         and not string.match(html, "prepics%.com/")
         and not string.match(html, "prepics%-cdn%.com/")
+        and not string.match(html, "^%s*<p>いいねした人がいません</p>%s*$")
       ) then
       io.stdout:write("Possible 200 page with captcha.\n")
       io.stdout:flush()
