@@ -151,7 +151,8 @@ allowed = function(url, parenturl)
   if string.match(url, "^https?://[^/]*prcm%.jp/sign%-in%?")
     or string.match(url, "%?sort=[0-9]")
     or string.match(url, "%?order=")
-    or string.match(url, "/album/[^/]+/follow$") then
+    or string.match(url, "/album/[^/]+/follow$")
+    or string.match(url, "^https?://news%.prcm%.jp/search/.") then
     return false
   end
 
